@@ -1,20 +1,16 @@
-name: FortiDevSec Scan
-
+name: FortiDevSec Scanner CI
 on:
   push:
-    branches: [ main ]
+   branches: [ master ]
   pull_request:
-    branches: [ main ]
-
+   branches: [ master ]
 jobs:
-  fortidevsec_scan:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Run FortiDevSec Scan
-        env:
-          FORTIDEVSEC_APIKEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDk4IiwicGwiOiI2NDk4OjY0OTg6NTA6NzM4IiwiZXhwIjoxNzUzODYzNjA2fQ.vK81weOwrCQ2cP2uZ0jL570Vq6zuVkguIPf5p11KbEo
-        run: |
-          curl -sSL https://fortidevsec.forticloud.com/cli/linux/latest | sh
-          ./fortidevsec scan
+  build:
+   runs-on: ubuntu-latest
+   steps:
+   – uses: actions/checkout@v2
+   – name: SAST
+    run: |
+     docker pull registry.fortidevsec.forticloud.com/fdevsec_sast:latest
+     docker run --rm --mount type=bind,source=$PWD,target=/scan
+registry.fortidevsec.forticloud.com/fdevsec_sast:latest
