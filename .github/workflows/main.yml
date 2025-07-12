@@ -1,0 +1,20 @@
+name: FortiDevSec Scan
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  fortidevsec_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run FortiDevSec Scan
+        env:
+          FORTIDEVSEC_APIKEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDk4IiwicGwiOiI2NDk4OjY0OTg6NTA6NzM4IiwiZXhwIjoxNzUzODYzNjA2fQ.vK81weOwrCQ2cP2uZ0jL570Vq6zuVkguIPf5p11KbEo
+        run: |
+          curl -sSL https://fortidevsec.forticloud.com/cli/linux/latest | sh
+          ./fortidevsec scan
